@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOTLINE | Our Work</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Outfit:wght@300;400;500&family=Tenor+Sans&display=swap');
+
+:root {
+  --bg: #080C0A;
+  --surface: #0F1712;
+  --surface2: #162019;
+  --primary: #3E5E51;
+  --primary-glow: #4A7A68;
+  --secondary: #DCD0C4;
+  --accent: #B8D4C0;
+  --text: #EDE8E3;
+  --text-muted: #8A9E96;
+  --border: rgba(62,94,81,0.25);
+  --border-bright: rgba(184,212,192,0.3);
+  --padding-y: clamp(80px,10vw,140px);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;cursor:none!important;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;}
+
+a{text-decoration:none;color:inherit;}
+button,input,select,textarea{font-family:inherit;}
+*:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px;}
+
+.container{max-width:1280px;margin:0 auto;padding:0 5%;position:relative;z-index:2;}
+
+/* CURSOR */
+.cursor-outer{position:fixed;width:28px;height:28px;border:1.5px solid rgba(184,212,192,0.5);border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);transition:width .3s,height .3s,background-color .3s,border-color .3s;}
+.cursor-inner{position:fixed;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);transition:width .15s,height .15s;}
+.cursor-hover .cursor-outer{width:48px;height:48px;background:rgba(62,94,81,0.15);border-color:transparent;}
+.cursor-click .cursor-inner{width:12px;height:12px;}
+
+/* AMBIENT */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.035;pointer-events:none;z-index:1;}
+.ambient-blobs{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.blob{position:absolute;border-radius:50%;}
+.blob-1{width:700px;height:700px;background:radial-gradient(circle,rgba(62,94,81,.12),transparent 70%);top:-200px;left:-200px;animation:blobFloat1 18s infinite alternate ease-in-out;}
+.blob-2{width:600px;height:600px;background:radial-gradient(circle,rgba(62,94,81,.08),transparent 70%);top:40%;right:-150px;animation:blobFloat2 22s infinite alternate-reverse ease-in-out;}
+.blob-3{width:500px;height:500px;background:radial-gradient(circle,rgba(184,212,192,.05),transparent 70%);bottom:10%;left:30%;animation:blobFloat3 26s infinite alternate ease-in-out;}
+@keyframes blobFloat1{0%{transform:translate(0,0)}100%{transform:translate(60px,40px)}}
+@keyframes blobFloat2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-50px,60px) scale(1.1)}}
+@keyframes blobFloat3{0%{transform:translate(0,0)}100%{transform:translate(40px,-50px)}}
+
+/* NAVBAR */
+.navbar{position:fixed;top:0;left:0;width:100%;z-index:100;transition:all .4s cubic-bezier(.16,1,.3,1);padding:24px 0;}
+.navbar.nav-scrolled{background:rgba(8,12,10,.85);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);padding:16px 0;}
+.nav-container{display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{font-family:'Tenor Sans',sans-serif;font-size:18px;color:var(--text);display:flex;align-items:center;letter-spacing:.05em;}
+.nav-logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:8px;display:inline-block;}
+.nav-links{display:flex;gap:40px;align-items:center;}
+.nav-link{font-size:13px;letter-spacing:.06em;color:var(--text-muted);position:relative;transition:color .4s;padding-bottom:4px;}
+.nav-link:hover,.nav-link.active{color:var(--text);}
+/* .nav-link::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--accent);transform:translateX(-101%);transition:transform .4s cubic-bezier(.16,1,.3,1);} */
+.nav-link:hover::after,.nav-link.active::after{transform:translateX(0);}
+.nav-cta{border-radius:100px;border:1px solid var(--border-bright);background:rgba(62,94,81,.15);color:var(--accent);font-size:13px;padding:10px 24px;transition:all .4s cubic-bezier(.16,1,.3,1);}
+.nav-cta:hover{background:rgba(62,94,81,.35);box-shadow:0 0 20px rgba(62,94,81,.3);}
+.mobile-menu-btn{display:none;flex-direction:column;gap:6px;width:32px;background:none;border:none;z-index:102;}
+.mobile-menu-line{width:100%;height:2px;background:var(--text);transition:all .3s;}
+
+/* MOBILE OVERLAY */
+.mobile-overlay{position:fixed;inset:0;background:rgba(8,12,10,.97);z-index:101;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:40px;opacity:0;pointer-events:none;transition:opacity .4s;}
+.mobile-overlay.open{opacity:1;pointer-events:all;}
+.mobile-nav-link{font-family:'Tenor Sans',sans-serif;font-size:48px;color:var(--text);transition:color .3s;}
+.mobile-nav-link:hover{color:var(--accent);}
+
+/* PAGE HERO */
+.page-hero{min-height:50vh;display:flex;align-items:flex-end;padding-top:140px;padding-bottom:60px;position:relative;z-index:2;}
+.page-hero-inner{width:100%;}
+.page-hero-label{font-size:11px;text-transform:uppercase;letter-spacing:.25em;color:var(--text-muted);margin-bottom:20px;display:block;opacity:0;transform:translateY(20px);transition:all .7s cubic-bezier(.16,1,.3,1);}
+.page-hero-label.show{opacity:1;transform:translateY(0);}
+.page-hero-title{font-family:'Tenor Sans',sans-serif;font-size:clamp(52px,7vw,110px);line-height:1.0;margin-bottom:28px;}
+.page-hero-line-mask{overflow:hidden;padding-bottom:6px;}
+.page-hero-word{display:block;transform:translateY(80px);opacity:0;transition:all .9s cubic-bezier(.16,1,.3,1);}
+.page-hero-word.show{transform:translateY(0);opacity:1;}
+.text-gradient{background:linear-gradient(135deg,#DCD0C4 0%,#B8D4C0 50%,#3E5E51 100%);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.page-hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--text-muted);opacity:0;transform:translateY(20px);transition:all .8s .5s cubic-bezier(.16,1,.3,1);}
+.page-hero-sub.show{opacity:1;transform:translateY(0);}
+.page-hero-rule{width:100%;height:1px;background:var(--border);margin-top:48px;opacity:0;transition:opacity .8s .6s;}
+.page-hero-rule.show{opacity:1;}
+
+/* FILTER BAR */
+.filter-bar{padding:40px 0 0;position:relative;z-index:2;}
+.filter-inner{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.filter-label{font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--text-muted);margin-right:8px;}
+.filter-btn{padding:8px 20px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-size:12px;letter-spacing:.08em;transition:all .3s cubic-bezier(.16,1,.3,1);font-family:'Outfit',sans-serif;}
+.filter-btn:hover{border-color:var(--border-bright);color:var(--text);}
+.filter-btn.active{background:rgba(62,94,81,.2);border-color:var(--accent);color:var(--accent);}
+
+/* GRID SECTION */
+.portfolio-section{padding:60px 0 var(--padding-y);position:relative;z-index:2;}
+.portfolio-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:48px;}
+.portfolio-count{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--text-muted);}
+.portfolio-sort{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text-muted);}
+.sort-btn{background:none;border:none;color:var(--text-muted);font-size:12px;font-family:'Outfit',sans-serif;padding:6px 12px;border-radius:100px;transition:all .3s;}
+.sort-btn:hover,.sort-btn.active{color:var(--accent);background:rgba(62,94,81,.1);}
+
+/* PORTFOLIO GRID */
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+
+/* CARD */
+.p-card{position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(184,212,192,.1);aspect-ratio:1080/1350;background:#0a0f0c;cursor:pointer;opacity:0;transform:translateY(40px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1),box-shadow .4s;}
+.p-card.visible{opacity:1;transform:translateY(0);}
+.p-card:hover{box-shadow:0 40px 80px rgba(0,0,0,.6);transform:translateY(-8px);}
+.p-card.hidden{display:none;}
+
+/* Card image bg */
+.p-card-img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s cubic-bezier(.16,1,.3,1);}
+.p-card:hover .p-card-img{transform:scale(1.07);}
+
+/* Gradient overlays */
+.p-card-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,12,10,.08) 0%,rgba(8,12,10,.15) 30%,rgba(8,12,10,.75) 65%,rgba(8,12,10,.97) 100%);z-index:1;}
+
+/* Top content */
+.p-card-top{position:absolute;top:0;left:0;right:0;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;z-index:2;}
+.p-tag{padding:5px 14px;border-radius:100px;background:rgba(8,12,10,.5);border:1px solid rgba(184,212,192,.2);backdrop-filter:blur(8px);font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);}
+.p-year{font-size:11px;color:var(--text-muted);}
+
+/* Bottom content */
+.p-card-bottom{position:absolute;bottom:0;left:0;right:0;padding:24px 28px 30px;z-index:2;}
+.p-client{font-family:'Tenor Sans',sans-serif;font-size:clamp(20px,2vw,28px);color:var(--text);margin-bottom:8px;line-height:1.1;}
+.p-metric{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,1.6vw,22px);background:linear-gradient(135deg,#DCD0C4,#B8D4C0);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;line-height:1.3;}
+.p-desc{font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:18px;}
+.p-card-footer{display:flex;justify-content:space-between;align-items:center;}
+.p-cta{font-size:12px;color:var(--accent);opacity:0;transform:translateY(8px);transition:all .35s cubic-bezier(.16,1,.3,1);}
+.p-card:hover .p-cta{opacity:1;transform:translateY(0);}
+.p-num{font-size:11px;color:var(--text-muted);}
+
+/* Fallback gradients per card */
+.card-grad-1{background:linear-gradient(145deg,#1a3329 0%,#0d1f18 40%,#2d5244 100%);}
+.card-grad-2{background:linear-gradient(145deg,#0f1a16 0%,#1e3d30 50%,#3E5E51 100%);}
+.card-grad-3{background:linear-gradient(145deg,#080f0c 0%,#1a3329 60%,rgba(220,208,196,.3) 100%);}
+.card-grad-4{background:linear-gradient(145deg,#1C2B25 0%,#3E5E51 70%,rgba(184,212,192,.3) 100%);}
+.card-grad-5{background:linear-gradient(145deg,#0a0f0c 0%,#162019 40%,#4A7A68 100%);}
+.card-grad-6{background:linear-gradient(145deg,#0d1a15 0%,#1a3329 50%,#3E5E51 100%);}
+.card-grad-7{background:linear-gradient(145deg,#0f1a16 0%,#2d5244 50%,rgba(220,208,196,.2) 100%);}
+.card-grad-8{background:linear-gradient(145deg,#080c0a 0%,#1a3329 45%,#4A7A68 100%);}
+.card-grad-9{background:linear-gradient(145deg,#162019 0%,#3E5E51 60%,rgba(184,212,192,.25) 100%);}
+
+/* FEATURED CARD (spans 2 cols) */
+.p-card.featured{grid-column:span 2;aspect-ratio:auto;}
+.p-card.featured .p-client{font-size:clamp(28px,3vw,42px);}
+.p-card.featured .p-metric{font-size:clamp(20px,2.2vw,30px);}
+.p-card.featured .p-desc{font-size:14px;}
+.p-card.featured .p-card-bottom{padding:32px 40px 40px;}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;z-index:1000;background:rgba(8,12,10,.95);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;}
+.lightbox.open{opacity:1;pointer-events:all;}
+.lightbox-inner{max-width:1000px;width:90%;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;transform:translateY(30px);transition:transform .4s cubic-bezier(.16,1,.3,1);}
+.lightbox.open .lightbox-inner{transform:translateY(0);}
+.lightbox-img{aspect-ratio:1080/1350;border-radius:20px;overflow:hidden;background:#0a0f0c;border:1px solid var(--border);}
+.lightbox-img-bg{width:100%;height:100%;background-size:cover;background-position:center;}
+.lightbox-info{padding:20px 0;}
+.lb-tag{display:inline-block;padding:5px 14px;border-radius:100px;background:rgba(62,94,81,.2);border:1px solid var(--border-bright);font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);margin-bottom:24px;}
+.lb-client{font-family:'Tenor Sans',sans-serif;font-size:clamp(36px,4vw,56px);color:var(--text);line-height:1;margin-bottom:16px;}
+.lb-metric{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:26px;background:linear-gradient(135deg,#DCD0C4,#B8D4C0);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:24px;line-height:1.3;}
+.lb-rule{height:1px;background:var(--border);margin-bottom:24px;}
+.lb-desc-full{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:32px;}
+.lb-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;}
+.lb-stat{padding:16px;background:rgba(62,94,81,.08);border:1px solid var(--border);border-radius:12px;}
+.lb-stat-val{font-family:'Tenor Sans',sans-serif;font-size:22px;background:linear-gradient(135deg,#DCD0C4,#B8D4C0);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.lb-stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);margin-top:4px;}
+.lb-close{position:fixed;top:32px;right:32px;width:48px;height:48px;background:rgba(15,23,18,.8);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text);transition:all .3s;backdrop-filter:blur(12px);}
+.lb-close:hover{background:rgba(62,94,81,.3);border-color:var(--border-bright);}
+
+/* FOOTER */
+.footer{background:var(--bg);border-top:1px solid var(--border);padding:80px 0 40px;position:relative;z-index:2;}
+.footer-wordmark{font-family:'Tenor Sans',sans-serif;font-size:clamp(80px,12vw,160px);color:rgba(62,94,81,.1);text-align:center;line-height:1;margin-bottom:60px;letter-spacing:-.02em;}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;margin-bottom:60px;}
+.footer-col-title{font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--text-muted);margin-bottom:20px;}
+.footer-logo{font-family:'Tenor Sans',sans-serif;font-size:18px;color:var(--text);display:flex;align-items:center;margin-bottom:12px;}
+.footer-logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:8px;}
+.footer-desc{font-size:13px;color:var(--text-muted);line-height:1.7;max-width:220px;margin-bottom:16px;}
+.footer-links{display:flex;flex-direction:column;gap:12px;}
+.footer-link{font-size:13px;color:var(--text-muted);transition:color .3s;}
+.footer-link:hover{color:var(--accent);}
+.footer-bottom{border-top:1px solid var(--border);padding-top:32px;display:flex;justify-content:space-between;align-items:center;}
+.footer-copy{font-size:13px;color:var(--text-muted);}
+.footer-craft{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-muted);}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* BACK TO TOP */
+.back-top{position:fixed;bottom:40px;right:40px;width:48px;height:48px;background:rgba(15,23,18,.8);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:20px;z-index:50;backdrop-filter:blur(12px);opacity:0;pointer-events:none;transform:translateY(10px);transition:all .3s;}
+.back-top.show{opacity:1;pointer-events:all;transform:translateY(0);}
+.back-top:hover{background:rgba(62,94,81,.3);border-color:var(--border-bright);}
+
+/* EMPTY STATE */
+.empty-state{grid-column:1/-1;text-align:center;padding:80px 0;opacity:0;transition:opacity .4s;}
+.empty-state.show{opacity:1;}
+.empty-icon{font-size:48px;margin-bottom:16px;opacity:.3;}
+.empty-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--text-muted);}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .portfolio-grid{grid-template-columns:repeat(2,1fr);}
+  .p-card.featured{grid-column:span 1;aspect-ratio:1080/1350;min-height:unset;}
+  .lightbox-inner{grid-template-columns:1fr;max-height:90vh;overflow-y:auto;}
+  .lightbox-img{aspect-ratio:16/9;}
+}
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .mobile-menu-btn{display:flex;}
+  .portfolio-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .filter-inner{gap:8px;}
+  .portfolio-meta{flex-direction:column;align-items:flex-start;gap:16px;}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center;}
+  .back-top{bottom:24px;right:24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-outer" id="cursorOuter"></div>
+<div class="cursor-inner" id="cursorInner"></div>
+
+<!-- Ambient -->
+<div class="ambient-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-dot"></span>DOTLINE</a>
+      <div class="nav-links">
+        <a href="index.html#work" class="nav-link active">Work</a>
+        <a href="index.html#services" class="nav-link">Services</a>
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+      </div>
+      <a href="index.html#contact" class="nav-cta">Start a Project</a>
+      <button class="mobile-menu-btn" id="mobileBtn" aria-label="Menu">
+        <span class="mobile-menu-line"></span>
+        <span class="mobile-menu-line"></span>
+        <span class="mobile-menu-line"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Overlay -->
+<div class="mobile-overlay" id="mobileOverlay">
+  <a href="index.html#work" class="mobile-nav-link">Work</a>
+  <a href="index.html#services" class="mobile-nav-link">Services</a>
+  <a href="index.html#about" class="mobile-nav-link">About</a>
+  <a href="index.html#contact" class="mobile-nav-link">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <span class="page-hero-label" id="heroLabel">03 · Selected Work</span>
+      <h1 class="page-hero-title">
+        <div class="page-hero-line-mask"><span class="page-hero-word" id="hw1">Results that</span></div>
+        <div class="page-hero-line-mask"><span class="page-hero-word text-gradient" id="hw2">redefine</span></div>
+        <div class="page-hero-line-mask"><span class="page-hero-word" id="hw3">the benchmark.</span></div>
+      </h1>
+      <p class="page-hero-sub" id="heroSub">Every project a story. Every result a proof of what's possible.</p>
+      <div class="page-hero-rule" id="heroRule"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="container">
+    <div class="filter-inner">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all">All Work</button>
+      <button class="filter-btn" data-filter="brand">Brand Strategy</button>
+      <button class="filter-btn" data-filter="performance">Performance</button>
+      <button class="filter-btn" data-filter="creative">Creative</button>
+      <button class="filter-btn" data-filter="seo">SEO &amp; Content</button>
+      <button class="filter-btn" data-filter="social">Social Media</button>
+      <button class="filter-btn" data-filter="web">Web</button>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO GRID -->
+<section class="portfolio-section">
+  <div class="container">
+    <div class="portfolio-meta reveal">
+      <span class="portfolio-count" id="portfolioCount">Showing <em>9</em> projects</span>
+      <div class="portfolio-sort">
+        <span>Sort by:</span>
+        <button class="sort-btn active" data-sort="newest">Newest</button>
+        <button class="sort-btn" data-sort="impact">Impact</button>
+      </div>
+    </div>
+
+    <div class="portfolio-grid" id="portfolioGrid">
+
+      <!-- CARD 1 — Featured -->
+      <div class="p-card featured card-1" data-category="performance" data-year="2024" data-impact="340">
+        <div class="p-card-img" style="background-image:url('./1.jpg');" data-fallback="card-grad-1"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">F&amp;B · Performance</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">NovaBrew</div>
+          <div class="p-metric">+340% ROAS in 60 days</div>
+          <div class="p-desc">Full-funnel paid media overhaul across Google, Meta &amp; TikTok with creative direction.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">01</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="p-card card-2" data-category="performance" data-year="2024" data-impact="210">
+        <div class="p-card-img" style="background-image:url('./2.jpg');" data-fallback="card-grad-2"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Real Estate · Ads</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">UrbanShift</div>
+          <div class="p-metric">+210% Qualified Leads</div>
+          <div class="p-desc">Google &amp; Meta demand gen for luxury property developer.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">02</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="p-card card-3" data-category="seo" data-year="2023" data-impact="240">
+        <div class="p-card-img" style="background-image:url('./3.jpg');" data-fallback="card-grad-3"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Healthcare · SEO</span>
+          <span class="p-year">2023</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Zelta Health</div>
+          <div class="p-metric">2.4× Organic Traffic in 4 months</div>
+          <div class="p-desc">Technical SEO overhaul and content strategy from scratch.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">03</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="p-card card-4" data-category="social" data-year="2024" data-impact="180">
+        <div class="p-card-img" style="background-image:url('./4.jpg');" data-fallback="card-grad-4"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Fashion · Social</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Lumara</div>
+          <div class="p-metric">1.8M Impressions in launch week</div>
+          <div class="p-desc">Social launch strategy and UGC creative system for fashion brand.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">04</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="p-card card-5" data-category="brand" data-year="2023" data-impact="400">
+        <div class="p-card-img" style="background-image:url('./5.jpg');" data-fallback="card-grad-5"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">D2C · Full-Service</span>
+          <span class="p-year">2023</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Craft &amp; Co</div>
+          <div class="p-metric">$1.2M Revenue in Q1</div>
+          <div class="p-desc">Brand identity, performance campaigns, and web — built from zero.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">05</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="p-card card-6" data-category="web" data-year="2024" data-impact="300">
+        <div class="p-card-img" style="background-image:url('./6.jpg');" data-fallback="card-grad-6"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">SaaS · Brand + Web</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Nova Labs</div>
+          <div class="p-metric">3× Trial-to-Paid Conversion</div>
+          <div class="p-desc">Repositioning, new website, and onboarding flow redesign.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">06</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 7 -->
+      <div class="p-card card-7" data-category="brand" data-year="2024" data-impact="220">
+        <div class="p-card-img" style="background-image:url('./7.jpg');" data-fallback="card-grad-7"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Retail · Brand Strategy</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Marché</div>
+          <div class="p-metric">+220% Brand Recall Score</div>
+          <div class="p-desc">Complete brand repositioning from local retailer to premium experience.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">07</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 8 -->
+      <div class="p-card card-8" data-category="creative" data-year="2023" data-impact="190">
+        <div class="p-card-img" style="background-image:url('./8.jpg');" data-fallback="card-grad-8"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Tech · Creative Direction</span>
+          <span class="p-year">2023</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Helix AI</div>
+          <div class="p-metric">190% Engagement Lift</div>
+          <div class="p-desc">Visual identity and motion system for AI startup's Series A launch.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">08</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 9 -->
+      <div class="p-card card-9" data-category="social" data-year="2024" data-impact="260">
+        <div class="p-card-img" style="background-image:url('./9.jpg');" data-fallback="card-grad-9"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Lifestyle · Social + Creative</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Solène</div>
+          <div class="p-metric">4.2M Total Reach in 90 days</div>
+          <div class="p-desc">Content ecosystem and influencer strategy for wellness lifestyle brand.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">09</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-card card-9" data-category="social" data-year="2024" data-impact="260">
+        <div class="p-card-img" style="background-image:url('./9.jpg');" data-fallback="card-grad-9"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Lifestyle · Social + Creative</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Solène</div>
+          <div class="p-metric">4.2M Total Reach in 90 days</div>
+          <div class="p-desc">Content ecosystem and influencer strategy for wellness lifestyle brand.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">09</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-card card-9" data-category="social" data-year="2024" data-impact="260">
+        <div class="p-card-img" style="background-image:url('./9.jpg');" data-fallback="card-grad-9"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Lifestyle · Social + Creative</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Solène</div>
+          <div class="p-metric">4.2M Total Reach in 90 days</div>
+          <div class="p-desc">Content ecosystem and influencer strategy for wellness lifestyle brand.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">09</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-card card-9" data-category="social" data-year="2024" data-impact="260">
+        <div class="p-card-img" style="background-image:url('./9.jpg');" data-fallback="card-grad-9"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Lifestyle · Social + Creative</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Solène</div>
+          <div class="p-metric">4.2M Total Reach in 90 days</div>
+          <div class="p-desc">Content ecosystem and influencer strategy for wellness lifestyle brand.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">09</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-card card-9" data-category="social" data-year="2024" data-impact="260">
+        <div class="p-card-img" style="background-image:url('./9.jpg');" data-fallback="card-grad-9"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Lifestyle · Social + Creative</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Solène</div>
+          <div class="p-metric">4.2M Total Reach in 90 days</div>
+          <div class="p-desc">Content ecosystem and influencer strategy for wellness lifestyle brand.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">09</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-card card-9" data-category="social" data-year="2024" data-impact="260">
+        <div class="p-card-img" style="background-image:url('./9.jpg');" data-fallback="card-grad-9"></div>
+        <div class="p-card-overlay"></div>
+        <div class="p-card-top">
+          <span class="p-tag">Lifestyle · Social + Creative</span>
+          <span class="p-year">2024</span>
+        </div>
+        <div class="p-card-bottom">
+          <div class="p-client">Solène</div>
+          <div class="p-metric">4.2M Total Reach in 90 days</div>
+          <div class="p-desc">Content ecosystem and influencer strategy for wellness lifestyle brand.</div>
+          <div class="p-card-footer">
+            <span class="p-cta">View Case Study →</span>
+            <span class="p-num">09</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">○</div>
+        <div class="empty-text">No projects match this filter.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-wordmark">DOTLINE</div>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span class="footer-logo-dot"></span>DOTLINE</div>
+        <p class="footer-desc">A premium marketing agency connecting brands to what's next.</p>
+        <p style="font-size:13px;color:var(--text-muted);">© 2025 DOTLINE Agency.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <div class="footer-links">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="portfolio.html" class="footer-link">Work</a>
+          <a href="index.html#services" class="footer-link">Services</a>
+          <a href="index.html#about" class="footer-link">About</a>
+          <a href="index.html#contact" class="footer-link">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <div class="footer-links">
+          <a href="mailto:dotlinemarketingagency@gmail.com" class="footer-link">Dotline</a>
+          <a href="#" class="footer-link">Instagram</a>
+          <a href="#" class="footer-link">Facebook</a>
+          <a href="#" class="footer-link">Twitter</a>
+          <a href="#" class="footer-link">Cairo, Egypt — Global</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">All rights reserved.</span>
+      <span class="footer-craft">Crafted with intention.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to Top -->
+<button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <div class="lightbox-inner">
+    <div class="lightbox-img">
+      <div class="lightbox-img-bg" id="lbImg"></div>
+    </div>
+    <div class="lightbox-info">
+      <span class="lb-tag" id="lbTag"></span>
+      <div class="lb-client" id="lbClient"></div>
+      <div class="lb-metric" id="lbMetric"></div>
+      <div class="lb-rule"></div>
+      <p class="lb-desc-full" id="lbDesc"></p>
+      <div class="lb-stats" id="lbStats"></div>
+      <a href="index.html#contact" class="nav-cta" style="display:inline-block;margin-top:8px;">Start a Similar Project →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Cursor
+const co = document.getElementById('cursorOuter');
+const ci = document.getElementById('cursorInner');
+let mx=0,my=0,ox=0,oy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;ci.style.left=mx+'px';ci.style.top=my+'px';});
+function lerpCursor(){ox+=(mx-ox)*.12;oy+=(my-oy)*.12;co.style.left=ox+'px';co.style.top=oy+'px';requestAnimationFrame(lerpCursor);}
+lerpCursor();
+document.querySelectorAll('a,button,.p-card,.filter-btn,.sort-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('cursor-click'));
+
+// Navbar scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('nav-scrolled',window.scrollY>60);
+  document.getElementById('backTop').classList.toggle('show',window.scrollY>400);
+});
+
+// Mobile menu
+const mBtn=document.getElementById('mobileBtn');
+const mOv=document.getElementById('mobileOverlay');
+let mOpen=false;
+mBtn.addEventListener('click',()=>{
+  mOpen=!mOpen;
+  mOv.classList.toggle('open',mOpen);
+  const lines=mBtn.querySelectorAll('.mobile-menu-line');
+  if(mOpen){lines[0].style.transform='rotate(45deg) translate(5px,5px)';lines[1].style.opacity='0';lines[2].style.transform='rotate(-45deg) translate(5px,-5px)';}
+  else{lines.forEach(l=>{l.style.transform='';l.style.opacity='';});}
+});
+mOv.querySelectorAll('.mobile-nav-link').forEach(l=>l.addEventListener('click',()=>mBtn.click()));
+
+// Hero animations
+setTimeout(()=>{
+  document.getElementById('heroLabel').classList.add('show');
+  setTimeout(()=>document.getElementById('hw1').classList.add('show'),200);
+  setTimeout(()=>document.getElementById('hw2').classList.add('show'),380);
+  setTimeout(()=>document.getElementById('hw3').classList.add('show'),540);
+  setTimeout(()=>document.getElementById('heroSub').classList.add('show'),700);
+  setTimeout(()=>document.getElementById('heroRule').classList.add('show'),800);
+},200);
+
+// Image fallbacks (1–9)
+for(let n=1;n<=9;n++){
+  const img=new Image();
+  const num=n;
+  img.onerror=()=>document.querySelectorAll(`.card-${num}`).forEach(el=>{
+    const bg=el.querySelector('.p-card-img');
+    if(bg)bg.className=`p-card-img ${bg.dataset.fallback}`;
+  });
+  img.src=`./${n}.jpg`;
+}
+
+// Scroll reveal
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}
+  });
+},{threshold:0.12});
+document.querySelectorAll('.reveal,.p-card').forEach((el,i)=>{
+  if(el.classList.contains('p-card'))el.style.transitionDelay=`${(i%3)*0.1}s`;
+  revealObs.observe(el);
+});
+
+// Filter
+const cards=Array.from(document.querySelectorAll('.p-card'));
+const emptyState=document.getElementById('emptyState');
+const countEl=document.getElementById('portfolioCount');
+let currentFilter='all';
+let currentSort='newest';
+
+function applyFilter(){
+  let visible=0;
+  cards.forEach(c=>{
+    const cat=c.dataset.category;
+    const show=currentFilter==='all'||cat===currentFilter;
+    c.classList.toggle('hidden',!show);
+    if(show)visible++;
+  });
+  countEl.innerHTML=`Showing <em>${visible}</em> project${visible!==1?'s':''}`;
+  emptyState.classList.toggle('show',visible===0);
+  // Re-trigger reveal for newly shown
+  setTimeout(()=>{
+    cards.forEach(c=>{if(!c.classList.contains('hidden'))revealObs.observe(c);});
+  },50);
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter=btn.dataset.filter;
+    applyFilter();
+  });
+});
+
+// Sort
+document.querySelectorAll('.sort-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentSort=btn.dataset.sort;
+    const grid=document.getElementById('portfolioGrid');
+    const sorted=[...cards].sort((a,b)=>{
+      if(currentSort==='newest')return parseInt(b.dataset.year)-parseInt(a.dataset.year);
+      return parseInt(b.dataset.impact)-parseInt(a.dataset.impact);
+    });
+    sorted.forEach(c=>grid.appendChild(c));
+    grid.appendChild(emptyState);
+  });
+});
+
+// Lightbox data
+const lbData={
+  'card-1':{tag:'F&B · Performance Marketing',client:'NovaBrew',metric:'+340% ROAS in 60 days',desc:'A complete full-funnel paid media overhaul spanning Google Search, Meta, and TikTok Ads. We rebuilt their creative strategy from ground up, introducing video-first ad formats and dynamic product catalogs that dramatically reduced CPAs while scaling spend.',stats:[{v:'+340%',l:'ROAS Growth'},{v:'−52%',l:'Cost Per Acquisition'},{v:'$280K',l:'Monthly Ad Spend'},{v:'60',l:'Days to Results'}]},
+  'card-2':{tag:'Real Estate · Performance',client:'UrbanShift',metric:'+210% Qualified Leads',desc:'Demand generation strategy for a luxury real estate developer targeting high-net-worth buyers. We restructured their entire paid search architecture and launched intent-based Meta campaigns with high-quality creative assets.',stats:[{v:'+210%',l:'Qualified Leads'},{v:'4.8×',l:'ROAS'},{v:'3 Cities',l:'Markets Reached'},{v:'90',l:'Days Campaign'}]},
+  'card-3':{tag:'Healthcare · SEO & Content',client:'Zelta Health',metric:'2.4× Organic Traffic',desc:'Technical SEO audit, content strategy, and 6-month execution plan for a digital health platform. We identified critical crawl issues, built a topical authority map, and produced 40+ optimized content pieces.',stats:[{v:'2.4×',l:'Organic Traffic'},{v:'+180%',l:'Keyword Rankings'},{v:'40+',l:'Content Pieces'},{v:'4 Months',l:'To Scale'}]},
+  'card-4':{tag:'Fashion · Social Media',client:'Lumara',metric:'1.8M Impressions',desc:'Social media launch strategy and UGC creative system for an emerging fashion label. We developed their visual identity across Instagram and TikTok, orchestrated an influencer seeding campaign, and built a sustainable content engine.',stats:[{v:'1.8M',l:'Impressions'},{v:'12.4%',l:'Engagement Rate'},{v:'45',l:'Creators Activated'},{v:'1 Week',l:'Launch Window'}]},
+  'card-5':{tag:'D2C · Full-Service',client:'Craft & Co',metric:'$1.2M Revenue in Q1',desc:'End-to-end brand build for a direct-to-consumer artisan goods company. We handled brand identity, e-commerce UX, performance marketing setup, and email flows — delivering a complete go-to-market system from scratch.',stats:[{v:'$1.2M',l:'Q1 Revenue'},{v:'8.2×',l:'Overall ROAS'},{v:'38%',l:'Email Open Rate'},{v:'0→Scale',l:'Built From Zero'}]},
+  'card-6':{tag:'SaaS · Brand + Web',client:'Nova Labs',metric:'3× Trial-to-Paid',desc:'Full repositioning for an AI SaaS company ahead of Series A. We redesigned their messaging architecture, rebuilt the website with a CRO-first approach, and streamlined the onboarding flow to dramatically improve activation.',stats:[{v:'3×',l:'Trial-to-Paid'},{v:'+65%',l:'Demo Requests'},{v:'−40%',l:'Churn Rate'},{v:'6 Weeks',l:'Delivery'}]},
+  'card-7':{tag:'Retail · Brand Strategy',client:'Marché',metric:'+220% Brand Recall',desc:'A complete brand repositioning journey for a premium retail chain. We redefined their positioning, redesigned their visual identity, and launched an integrated brand awareness campaign across digital and out-of-home.',stats:[{v:'+220%',l:'Brand Recall'},{v:'3 Stores',l:'Rebranded'},{v:'12 Weeks',l:'Project Duration'},{v:'NPS +45',l:'Customer Score'}]},
+  'card-8':{tag:'Tech · Creative Direction',client:'Helix AI',metric:'190% Engagement Lift',desc:'Visual identity and motion design system for an AI startup during its Series A announcement. We created a distinctive brand language, animated product explainers, and a full asset suite for press and digital channels.',stats:[{v:'+190%',l:'Engagement Lift'},{v:'2.4M',l:'Video Views'},{v:'Full Suite',l:'Brand Assets'},{v:'Series A',l:'Launch Support'}]},
+  'card-9':{tag:'Lifestyle · Social + Creative',client:'Solène',metric:'4.2M Total Reach',desc:'A 90-day social media and content ecosystem build for a wellness lifestyle brand. We developed content pillars, produced original editorial photography direction, and managed a micro-influencer network across 3 platforms.',stats:[{v:'4.2M',l:'Total Reach'},{v:'8.9%',l:'Avg Engagement'},{v:'3 Platforms',l:'Active Channels'},{v:'90 Days',l:'Campaign Length'}]}
+};
+
+// Lightbox open
+cards.forEach(c=>{
+  c.addEventListener('click',()=>{
+    const key=Array.from(c.classList).find(cl=>cl.startsWith('card-'));
+    if(!key)return;
+    const d=lbData[key];
+    if(!d)return;
+    const imgEl=c.querySelector('.p-card-img');
+    const imgStyle=window.getComputedStyle(imgEl).backgroundImage;
+    document.getElementById('lbImg').style.backgroundImage=imgEl.style.backgroundImage||imgStyle;
+    document.getElementById('lbImg').className='lightbox-img-bg '+(imgEl.className.includes('card-grad')?imgEl.className.split(' ').find(x=>x.startsWith('card-grad')):'');
+    document.getElementById('lbTag').textContent=d.tag;
+    document.getElementById('lbClient').textContent=d.client;
+    document.getElementById('lbMetric').textContent=d.metric;
+    document.getElementById('lbDesc').textContent=d.desc;
+    document.getElementById('lbStats').innerHTML=d.stats.map(s=>`<div class="lb-stat"><div class="lb-stat-val">${s.v}</div><div class="lb-stat-label">${s.l}</div></div>`).join('');
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow='hidden';
+  });
+});
+
+// Lightbox close
+document.getElementById('lbClose').addEventListener('click',closeLb);
+document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLb();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+function closeLb(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+
+// Back to top
+document.getElementById('backTop').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>
