@@ -171,6 +171,25 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .lb-close{position:fixed;top:32px;right:32px;width:48px;height:48px;background:rgba(15,23,18,.8);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text);transition:all .3s;backdrop-filter:blur(12px);}
 .lb-close:hover{background:rgba(62,94,81,.3);border-color:var(--border-bright);}
 
+/* GALLERY MODE (card-9 only) */
+.lb-gallery-wrap{display:none;flex-direction:column;gap:14px;}
+.lightbox.gallery-mode .lightbox-img{display:none;}
+.lightbox.gallery-mode .lb-gallery-wrap{display:flex;}
+.lb-main-img-wrap{aspect-ratio:1080/1350;border-radius:20px;overflow:hidden;background:#0a0f0c;border:1px solid var(--border);position:relative;}
+.lb-main-img{width:100%;height:100%;background-size:cover;background-position:center;transition:opacity .3s ease,transform .35s cubic-bezier(.16,1,.3,1);}
+.lb-main-img.fade{opacity:0;transform:scale(.97);}
+.lb-img-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;background:rgba(8,12,10,.7);border:1px solid var(--border-bright);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:17px;z-index:5;transition:all .3s;backdrop-filter:blur(10px);}
+.lb-img-nav:hover{background:rgba(62,94,81,.4);border-color:var(--accent);}
+.lb-img-prev{left:12px;}
+.lb-img-next{right:12px;}
+.lb-img-counter{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(8,12,10,.65);border:1px solid var(--border);border-radius:100px;padding:3px 13px;font-size:11px;color:var(--text-muted);backdrop-filter:blur(8px);letter-spacing:.08em;z-index:5;white-space:nowrap;}
+.lb-thumbs{display:flex;gap:9px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
+.lb-thumbs::-webkit-scrollbar{display:none;}
+.lb-thumb{flex-shrink:0;width:58px;height:72px;border-radius:9px;overflow:hidden;border:1.5px solid transparent;transition:all .25s;opacity:.45;}
+.lb-thumb:hover{opacity:.75;}
+.lb-thumb.active{border-color:var(--accent);opacity:1;box-shadow:0 0 10px rgba(184,212,192,.2);}
+.lb-thumb-bg{width:100%;height:100%;background-size:cover;background-position:center;}
+
 /* FOOTER */
 .footer{background:var(--bg);border-top:1px solid var(--border);padding:80px 0 40px;position:relative;z-index:2;}
 .footer-wordmark{font-family:'Tenor Sans',sans-serif;font-size:clamp(80px,12vw,160px);color:rgba(62,94,81,.1);text-align:center;line-height:1;margin-bottom:60px;letter-spacing:-.02em;}
@@ -619,9 +638,24 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="lightbox" id="lightbox">
   <button class="lb-close" id="lbClose">✕</button>
   <div class="lightbox-inner">
+
+    <!-- Single image (cards 1-8) -->
     <div class="lightbox-img">
       <div class="lightbox-img-bg" id="lbImg"></div>
     </div>
+
+    <!-- Gallery panel (card-9 only — shown via .gallery-mode) -->
+    <div class="lb-gallery-wrap">
+      <div class="lb-main-img-wrap">
+        <div class="lb-main-img" id="lbMainImg"></div>
+        <button class="lb-img-nav lb-img-prev" id="lbPrev">&#8592;</button>
+        <button class="lb-img-nav lb-img-next" id="lbNext">&#8594;</button>
+        <div class="lb-img-counter" id="lbCounter">1 / 1</div>
+      </div>
+      <div class="lb-thumbs" id="lbThumbs"></div>
+    </div>
+
+    <!-- Info (same for all) -->
     <div class="lightbox-info">
       <span class="lb-tag" id="lbTag"></span>
       <div class="lb-client" id="lbClient"></div>
@@ -758,35 +792,137 @@ const lbData={
   'card-6':{tag:'SaaS · Brand + Web',client:'Nova Labs',metric:'3× Trial-to-Paid',desc:'Full repositioning for an AI SaaS company ahead of Series A. We redesigned their messaging architecture, rebuilt the website with a CRO-first approach, and streamlined the onboarding flow to dramatically improve activation.',stats:[{v:'3×',l:'Trial-to-Paid'},{v:'+65%',l:'Demo Requests'},{v:'−40%',l:'Churn Rate'},{v:'6 Weeks',l:'Delivery'}]},
   'card-7':{tag:'Retail · Brand Strategy',client:'Marché',metric:'+220% Brand Recall',desc:'A complete brand repositioning journey for a premium retail chain. We redefined their positioning, redesigned their visual identity, and launched an integrated brand awareness campaign across digital and out-of-home.',stats:[{v:'+220%',l:'Brand Recall'},{v:'3 Stores',l:'Rebranded'},{v:'12 Weeks',l:'Project Duration'},{v:'NPS +45',l:'Customer Score'}]},
   'card-8':{tag:'Tech · Creative Direction',client:'Helix AI',metric:'190% Engagement Lift',desc:'Visual identity and motion design system for an AI startup during its Series A announcement. We created a distinctive brand language, animated product explainers, and a full asset suite for press and digital channels.',stats:[{v:'+190%',l:'Engagement Lift'},{v:'2.4M',l:'Video Views'},{v:'Full Suite',l:'Brand Assets'},{v:'Series A',l:'Launch Support'}]},
-  'card-9':{tag:'Lifestyle · Social + Creative',client:'Solène',metric:'4.2M Total Reach',desc:'A 90-day social media and content ecosystem build for a wellness lifestyle brand. We developed content pillars, produced original editorial photography direction, and managed a micro-influencer network across 3 platforms.',stats:[{v:'4.2M',l:'Total Reach'},{v:'8.9%',l:'Avg Engagement'},{v:'3 Platforms',l:'Active Channels'},{v:'90 Days',l:'Campaign Length'}]}
+  'card-9':{
+    tag:'Lifestyle · Social + Creative',client:'Solène',metric:'4.2M Total Reach',
+    desc:'A 90-day social media and content ecosystem build for a wellness lifestyle brand. We developed content pillars, produced original editorial photography direction, and managed a micro-influencer network across 3 platforms.',
+    stats:[{v:'4.2M',l:'Total Reach'},{v:'8.9%',l:'Avg Engagement'},{v:'3 Platforms',l:'Active Channels'},{v:'90 Days',l:'Campaign Length'}],
+    gallery:['./9.jpg','./9b.jpg','./9c.jpg','./9d.jpg'],
+    fallback:'card-grad-9'
+  }
 };
 
-// Lightbox open
+// ── Gallery state (card-9) ──
+let galImgs=[], galIdx=0, galFallback='';
+
+function setGalImage(idx){
+  if(idx<0)idx=galImgs.length-1;
+  if(idx>=galImgs.length)idx=0;
+  galIdx=idx;
+  const main=document.getElementById('lbMainImg');
+  main.classList.add('fade');
+  setTimeout(()=>{
+    const src=galImgs[galIdx];
+    const tmp=new Image();
+    tmp.onload=()=>{main.style.backgroundImage=`url('${src}')`;main.className='lb-main-img';};
+    tmp.onerror=()=>{main.style.backgroundImage='';main.className=`lb-main-img ${galFallback}`;main.classList.remove('fade');};
+    tmp.src=src;
+  },280);
+  // thumbs
+  document.querySelectorAll('.lb-thumb').forEach((t,i)=>t.classList.toggle('active',i===galIdx));
+  // counter
+  document.getElementById('lbCounter').textContent=`${galIdx+1} / ${galImgs.length}`;
+  // scroll thumb
+  const th=document.querySelectorAll('.lb-thumb')[galIdx];
+  if(th)th.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+}
+
+function buildThumbs(imgs,fb){
+  const strip=document.getElementById('lbThumbs');
+  strip.innerHTML='';
+  imgs.forEach((src,i)=>{
+    const t=document.createElement('div');
+    t.className='lb-thumb'+(i===0?' active':'');
+    const bg=document.createElement('div');
+    bg.className=`lb-thumb-bg ${fb}`;
+    const tmp=new Image();
+    tmp.onload=()=>{bg.style.backgroundImage=`url('${src}')`;};
+    tmp.src=src;
+    t.appendChild(bg);
+    t.addEventListener('click',()=>setGalImage(i));
+    strip.appendChild(t);
+  });
+}
+
+// ── Fill info panel (shared) ──
+function fillInfo(d){
+  document.getElementById('lbTag').textContent=d.tag;
+  document.getElementById('lbClient').textContent=d.client;
+  document.getElementById('lbMetric').textContent=d.metric;
+  document.getElementById('lbDesc').textContent=d.desc;
+  document.getElementById('lbStats').innerHTML=d.stats.map(s=>`<div class="lb-stat"><div class="lb-stat-val">${s.v}</div><div class="lb-stat-label">${s.l}</div></div>`).join('');
+}
+
+// ── Card click handler ──
 cards.forEach(c=>{
   c.addEventListener('click',()=>{
     const key=Array.from(c.classList).find(cl=>cl.startsWith('card-'));
     if(!key)return;
     const d=lbData[key];
     if(!d)return;
-    const imgEl=c.querySelector('.p-card-img');
-    const imgStyle=window.getComputedStyle(imgEl).backgroundImage;
-    document.getElementById('lbImg').style.backgroundImage=imgEl.style.backgroundImage||imgStyle;
-    document.getElementById('lbImg').className='lightbox-img-bg '+(imgEl.className.includes('card-grad')?imgEl.className.split(' ').find(x=>x.startsWith('card-grad')):'');
-    document.getElementById('lbTag').textContent=d.tag;
-    document.getElementById('lbClient').textContent=d.client;
-    document.getElementById('lbMetric').textContent=d.metric;
-    document.getElementById('lbDesc').textContent=d.desc;
-    document.getElementById('lbStats').innerHTML=d.stats.map(s=>`<div class="lb-stat"><div class="lb-stat-val">${s.v}</div><div class="lb-stat-label">${s.l}</div></div>`).join('');
-    document.getElementById('lightbox').classList.add('open');
+    const lb=document.getElementById('lightbox');
+    fillInfo(d);
+
+    if(key==='card-9' && d.gallery && d.gallery.length>0){
+      // ── GALLERY MODE for card-9 ──
+      galImgs=d.gallery;
+      galFallback=d.fallback||'';
+      galIdx=0;
+      lb.classList.add('gallery-mode');
+      // set first image
+      const main=document.getElementById('lbMainImg');
+      main.className=`lb-main-img ${galFallback}`;
+      main.style.backgroundImage='';
+      const tmp=new Image();
+      tmp.onload=()=>{main.style.backgroundImage=`url('${galImgs[0]}')`;main.className='lb-main-img';};
+      tmp.src=galImgs[0];
+      buildThumbs(galImgs,galFallback);
+      document.getElementById('lbCounter').textContent=`1 / ${galImgs.length}`;
+    } else {
+      // ── NORMAL MODE for all other cards ──
+      lb.classList.remove('gallery-mode');
+      const imgEl=c.querySelector('.p-card-img');
+      document.getElementById('lbImg').style.backgroundImage=imgEl.style.backgroundImage||window.getComputedStyle(imgEl).backgroundImage;
+      document.getElementById('lbImg').className='lightbox-img-bg '+(imgEl.className.includes('card-grad')?imgEl.className.split(' ').find(x=>x.startsWith('card-grad')):'');
+    }
+
+    lb.classList.add('open');
     document.body.style.overflow='hidden';
   });
 });
 
+// Gallery nav arrows
+document.getElementById('lbPrev').addEventListener('click',e=>{e.stopPropagation();setGalImage(galIdx-1);});
+document.getElementById('lbNext').addEventListener('click',e=>{e.stopPropagation();setGalImage(galIdx+1);});
+
+// Keyboard nav
+document.addEventListener('keydown',e=>{
+  const lb=document.getElementById('lightbox');
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLb();
+  if(lb.classList.contains('gallery-mode')){
+    if(e.key==='ArrowLeft')setGalImage(galIdx-1);
+    if(e.key==='ArrowRight')setGalImage(galIdx+1);
+  }
+});
+
+// Touch swipe on gallery main image
+let _tx=0;
+const lbMainEl=document.getElementById('lbMainImg');
+lbMainEl.addEventListener('touchstart',e=>{_tx=e.changedTouches[0].screenX;},{passive:true});
+lbMainEl.addEventListener('touchend',e=>{
+  const diff=e.changedTouches[0].screenX-_tx;
+  if(diff>50)setGalImage(galIdx-1);
+  else if(diff<-50)setGalImage(galIdx+1);
+},{passive:true});
+
 // Lightbox close
 document.getElementById('lbClose').addEventListener('click',closeLb);
 document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLb();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
-function closeLb(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+function closeLb(){
+  const lb=document.getElementById('lightbox');
+  lb.classList.remove('open','gallery-mode');
+  document.body.style.overflow='';
+}
 
 // Back to top
 document.getElementById('backTop').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
